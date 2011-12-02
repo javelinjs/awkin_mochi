@@ -1,0 +1,9 @@
+%% -*- erlang -*-
+{application, awkin,
+ [{description, "awkin"},
+  {vsn, "0.1"},
+  {modules, []},
+  {registered, []},
+  {mod, {'awkin_app', []}},
+  {env, []},
+  {applications, [kernel, stdlib, crypto]}]}.

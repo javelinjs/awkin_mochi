@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="/css/public.css" rel="stylesheet" type="text/css" />
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="/js/public.js"></script>
+<script type="text/javascript">
+function showitem(id) {
+    $("#item"+id).slideDown("normal");
+}
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Awkin·发现世界</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="top">
+            <div id="link">
+                <a href="#" target="_blank">关于Awkin</a>
+                <a href="#" target="_blank">Awkin微博</a>
+                <a href="#" target="_blank">RSS</a>
+            </div>
+            <div class="clear"></div>
+            <div id="logo">
+                <img height="40" width="58" src="./images/rover_small.png" />
+            </div>
+            <div id="login">
+                <span id="login_left"></span>
+                <span id="hello">Hello, &nbsp; javelinjs</span>
+                <div class="logout"><a href="#" target="_self" style="text-decoration:none">退出</a></div>
+                <span id="login_right"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div id="backtotop">
+            <a href="javascript:;" onclick="goTop();" title="回到顶部">Top↑</a>
+        </div>
+        <div id="main_wrapper">
+            <div id="main_content">
+                <div id="list_view" class="list_view">
+                    <p class="source_title_header">
+                        <a href="#" class="refresh_lnk">刷新</a>
+                        <img id="refreshing" src="./images/loading_more.gif" class="refresh_loading" style="display:none;">
+                        <span id="refresh_time">上次更新:14:37</span>
+                    </p>
+                    <div class="clear"></div>
+                    {% for item in items %}
+                    <div class="list_item">
+                        <div class="nail">
+                            <div>
+                                <a class="action-digg" href="#" title="我推荐" style="color: rgb(204, 204, 204); ">
+                                推荐[<em>3</em>]</a>
+                            </div>
+                            <div>
+                                <div class="thumb-shadow">
+                                    <img src="http://ww3.sinaimg.cn/thumbnail/6558c331jw1dn5qk01zc1j.jpg">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item_submit">
+                            <img src="images/bird_icon.jpg" class="favicon">
+                            {{ item.channel_title }} - 
+                            <span class="postdata">{{ item.pubDate }}</span>
+                        </div>
+                        <h3 class="item_title">
+                            <a href="javascript:;" onclick="showitem('{{ item.id_for_disp }}');" class="highlight_s">
+                            {{ item.title }}
+                            </a>
+                        </h3>
+                        <p class="item_summary">
+                            {{ item.content }}
+                            <a href="{{ item.link }}" target="_blank" title="查看原文" class="origin">[原文]</a>
+                        <p>
+                        <div class="item_content" id="item{{ item.id_for_disp }}">
+                            <p>
+                            {{ item.desc }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="more_loader">
+                <img src="./images/loading_more.gif">
+                正在加载更多...
+            </div>
+        </div>
+    </div>
+</body>
+</html>
