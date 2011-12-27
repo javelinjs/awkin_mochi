@@ -9,39 +9,6 @@
 -export([start/1, stop/0, loop/2]).
 
 %% External API
-channels() ->
-    {ok, Conn} = mongo:connect({localhost, 27017}),
-    {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, awkin, 
-                        fun() -> mongo:find(channel, {}) end),
-    Doc = mongo:next(Cursor),
-    {{'_id', ID, buildFreq, BuildFreq, desc, Desc, lastBuildDate, LastBuildDate, 
-        link, Link, title, Title}} = Doc,
-    [{id, ID}, {buildFreq, BuildFreq}].
-
-get_channel_from_item(Item, Conn) ->
-    ChannelID = proplists:get_value(channel_id, Item, 0), 
-    {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
-                            fun() -> 
-                                mongo:find_one(channel, {'_id', ChannelID})
-                            end
-                        ),
-    {Title} = 
-        case DocTuple of
-            {Doc} -> bson:lookup(title, Doc); 
-            _ -> {"Unknown"}
-        end,
-    Item ++ [{channel_title, Title}].
-    
-    
-items() ->
-    {ok, Conn} = mongo:connect({localhost, 27017}),
-    {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, awkin, 
-                            fun() -> mongo:find(item, {}) end),
-    Items = awkin_db:get_items(Cursor),
-    lists:map(fun(Item)->get_channel_from_item(Item, Conn) end, Items).
-    %Items.
-
-
 start(Options) ->
     {DocRoot, Options1} = get_option(docroot, Options),
     Loop = fun (Req) ->
@@ -59,8 +26,7 @@ loop(Req, DocRoot) ->
             Method when Method =:= 'GET'; Method =:= 'HEAD' ->
                 case Path of
                     "read" ->
-                        Items = items(),
-                        %Items = [{id, 1234}],
+                        Items = awkin_db:items(),
                         {ok, HTMLOutput} = read_dtl:render([{items, Items}]),
                         Req:respond({200, [{"Content-Type", "text/html"}],
                                 HTMLOutput});
@@ -69,6 +35,25 @@ loop(Req, DocRoot) ->
                 end;
             'POST' ->
                 case Path of
+                    "operation" ->
+                        PostData = Req:parse_post(),
+                        %Username = proplists:get_value("username", PostData, "Anonymous"),
+                        Json = proplists:get_value("data", PostData),
+                        Struct = mochijson2:decode(Json),
+                        A = struct:get_value(<<"action">>, Struct),
+
+                        % take action according to the user input
+                        Action = list_to_atom(binary_to_list(A)),
+                        Result = 
+                            try awkin_web_opr:Action(Struct) of
+                                {struct, RList} -> {struct, RList}
+                            catch
+                                _:_ -> {struct, [{<<"status">>, <<"error">>}]}
+                            end,
+
+                        DataOut = mochijson2:encode(Result),
+
+                        Req:ok({"application/json", [], [DataOut]});
                     _ ->
                         Req:not_found()
                 end;
