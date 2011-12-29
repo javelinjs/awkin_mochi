@@ -12,6 +12,8 @@ receive_data(Socket, SoFar) ->
             receive_data(Socket, [Bin|SoFar]);
         {tcp_closed, Socket} ->
             list_to_binary(lists:reverse(SoFar))
+    after 4000 ->
+        []
     end.
 
 cmd_get_item(Auth, User, Item) ->
@@ -32,11 +34,11 @@ json_auth(Username, Pwd) ->
 % NumOfItem: How many items should got
 % BaseId: Items rank should larger than Item[BaseId]'s rank
 json_items(NumOfItem, BaseId) ->
-    {struct, [{<<"set_size">>, NumOfItem}, {<<"base_id">>, BaseId}]};
+    {struct, [{<<"set_size">>, NumOfItem}, {<<"base_id">>, BaseId}]}.
 json_items(NumOfItem) ->
-    cmd_items(NumOfItem, <<-1>>);
+    json_items(NumOfItem, <<0>>).
 json_items() ->
-    cmd_items(<<-1>>, <<-1>>).
+    json_items(<<0>>, <<0>>).
 
 %user infomation
 json_user(UserId) ->

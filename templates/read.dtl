@@ -5,10 +5,40 @@
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
 function showitem(id) {
+    testdylan(id);
     $("#item"+id).slideDown("normal");
+    //sendjson(id);
+}
+
+function testdylan(id) {
+    var json = {
+        "action": "news"
+    };
+    var data = JSON.stringify(json);
+    alert(data);
+    $.post("/operation", {"data" : data},
+        function(result) {
+            //alert(result.success);
+            //alert(result.items);
+        }, "json"
+    );
+}
+
+function sendjson(id) {
+    var json = {
+        "action": "read",
+        "item": id
+    };
+    var data = JSON.stringify(json);
+    $.post("/operation", {"data" : data},
+        function(result){
+            alert(result.status); 
+        }, "json"
+    );
 }
 </script>
 
