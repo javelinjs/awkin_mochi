@@ -24,7 +24,7 @@ cmd_get_item(Auth, User, Item) ->
                 {<<"cmd">>, <<"get_item">>},
                 {<<"data">>, Data}
     ]},
-    mochijson2:encode(Cmd).
+    mochijson:binary_encode(Cmd).
 
 %TODO authorization
 json_auth(Username, Pwd) ->
@@ -36,9 +36,9 @@ json_auth(Username, Pwd) ->
 json_items(NumOfItem, BaseId) ->
     {struct, [{<<"set_size">>, NumOfItem}, {<<"base_id">>, BaseId}]}.
 json_items(NumOfItem) ->
-    json_items(NumOfItem, <<0>>).
+    json_items(NumOfItem, <<"-1">>).
 json_items() ->
-    json_items(<<0>>, <<0>>).
+    json_items(<<"-1">>, <<"-1">>).
 
 %user infomation
 json_user(UserId) ->

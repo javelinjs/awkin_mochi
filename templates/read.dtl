@@ -16,14 +16,16 @@ function showitem(id) {
 
 function testdylan(id) {
     var json = {
-        "action": "news"
+        "action": "news",
+        "limit": "-1"
     };
     var data = JSON.stringify(json);
-    alert(data);
+    //alert(data);
     $.post("/operation", {"data" : data},
         function(result) {
             //alert(result.success);
-            //alert(result.items);
+            //alert(result.items[0].title);
+            alert(result.size);
         }, "json"
     );
 }
