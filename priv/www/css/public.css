@@ -1,0 +1,205 @@
+@charset "utf-8";
+
+body,h1,h2,h3,h4,h5,h6,dl,dt,dd,ul,ol,li,th,td,p,blockquote,pre,form,fieldset,legend,input,button,textarea,hr{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+li{list-style:none;}
+fieldset,img{border:0;}
+table{border-collapse:collapse;border-spacing:0;}
+q:before,q:after{content:'';}
+abbr[title]{border-bottom:1px dotted;cursor:help;}
+address,cite,dfn,em,var{font-style:normal;}
+button,input,select,textarea{font-size:100%;line-height:150%;}
+legend{color:#000;}
+code,kbd,samp{font-family:"Courier New",monospace;}
+hr{border:none;height:1px;}
+body,button,input,select,textarea{font:12px/1 Arial,Tahoma,Helvetica,SimSun,san-serif;}
+
+/*--style of input area--*/
+textarea{line-height:16px;border:1px solid #d0d0d0;}
+textarea:focus {border:1px solid #58B612;}
+input{line-height:18px}
+input[type=text]{border:1px solid #d0d0d0;}
+input[type=text]:focus {border:1px solid #58B612;}
+input[type=password]{border:1px solid #d0d0d0;}
+input[type=password]:focus {border:1px solid #58B612;}
+select{border:1px solid #d0d0d0;}
+
+* {
+    margin:0;
+    padding:0;
+}
+
+body {
+    line-height:150%;
+    /*background:#e6f3c8 url(../images/header_bg.gif) repeat-x;*/
+    background: url(../images/header_bg.gif) repeat-x;
+    position:relative;
+    line-height:150%;
+    width:1000px;
+    margin:auto;
+    _width:960px;
+}
+
+a {
+    color:#565656;
+    font-size:12px;
+    text-decoration: none;
+}
+
+a:hover {
+    /*font-size:12px;*/
+    text-decoration: none;
+    color: #9db5e6;
+}
+
+a.action-digg {
+    color: #CCC;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.clear{
+    clear:both;
+}
+
+/*---Main----*/
+#container{
+    background-color:white;
+    padding: 0;
+    margin: 0 auto;
+    max-width:1240px;
+    min-width:998px;
+    text-align:left;
+    /*width:960px;*/
+}
+
+/*----top link----*/
+#top{
+    overflow:auto;
+    left:0;
+    top: 0;
+    z-index:10;
+    position: relative;
+    background:url(../images/header_bg.gif) repeat-x;
+    padding-top:4px;
+    width:100%;
+    float:left;
+    /*height:36px;*/
+    height:100%;
+}
+#link{
+    float:right;
+    margin-right:15px;
+    display:inline;
+}
+#link a{
+    border-left:#a0a0a0 solid 1px;
+    padding:0 5px 0 7px;
+    color:#c8c8c8;
+}
+#link a:hover {
+    color:#FFF;
+}
+
+#login{
+    float:left;
+    margin-top:-23px;
+    display:inline;
+    z-index:12;
+    background:url(../images/header_top_02.gif) repeat-x;
+    height:50px;
+}
+#login #login_left{
+    background:url(../images/header_top_01.gif) no-repeat;
+    width:24px;
+    height:50px;
+    float:left;
+}
+#login #login_right{
+    background:url(../images/header_top_03.gif) no-repeat;
+    width:24px;
+    height:50px;
+    float:left;
+}
+#login #hello{
+    font-weight:bold;
+    float:left;
+    padding:0 4px;
+    margin:13px 6px 0 2px;
+    display:inline;
+    z-index:14;
+    text-shadow:1px 1px 5px #000;
+    color:#c8c8c8;
+}
+#login .logout{
+    float:left;
+    position:relative;
+    background:#909090;
+    *background-color:#797979;
+    padding:4px 10px;
+    margin:5px;
+    margin-top:8px;
+    box-shadow:1px 1px 5px #3d3d3d;
+    -moz-box-shadow:1px 1px 5px #3d3d3d;
+    -webkit-box-shadow:1px 1px 5px #3d3d3d;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    z-index:15;
+    display:inline;
+}
+.logout a{
+    color:#414141 !important;
+    text-shadow:0 1px 0px #b0b0b0;
+    *color:#c8c8c8;
+}
+.logout a:hover {
+    color:#1F1F1F;
+    *color:#FFF;
+}
+
+#logo {
+    float:left;
+    margin-top:-20px;
+    display:inline;
+}
+
+.thumb-shadow {
+    float: right;
+    background: url(/images/shadow.gif) no-repeat bottom right;
+    margin: 5px 0 0 5px !important;
+    margin: 5px 0 0 5px;
+}
+
+.thumb-shadow img {
+    display: block;
+    position: relative;
+    background-color: white;
+    border-top: 1px solid #B8B8B8;
+    border-left: 1px solid #B8B8B8;
+    margin: -4px 6px 6px -4px;
+    height: 50px;
+    width: 50px;
+}
+
+.favicon {
+    margin-bottom: -3px;
+    height: 16px;
+    width: 16px;
+}
+
+#backtotop {
+    bottom: 4px;
+    right: 5px;
+    width: 40px;
+    height: 20px;
+    position: fixed;
+    text-align: center;
+    font-size: 10px;
+}
+
+#backtotop {
+    border: 1px solid #D0D0D0;
+    color: #A0A0A0;
+    padding: 2px 4px;
+}

@@ -26,5 +26,5 @@ news(S) ->
     Cmd = awkin_dylan:cmd_get_item(Auth, User, Item),
     % send request
     Res = awkin_dylan:send_cmd(?DylanHost, ?DylanPort, Cmd),
-    %io:format("~s", [Res]),
+    io:format("~s", [Res]),
     mochijson2:decode(Res).

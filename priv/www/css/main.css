@@ -1,0 +1,166 @@
+@charset "utf-8";
+
+#main_wrapper {
+    margin: 0 auto;
+    width:70%;
+    position:relative;
+    background: white;
+    z-index: 4;
+}
+
+#main_content {
+    /*padding: 0 12px;*/
+    top: 37px;
+    overflow: auto;
+    border-color: #00EA11;
+    border-width: 0px;
+    border-style: solid;
+    height: 100%;
+}
+
+#main_content .list_view {
+    padding: 0px 10px;
+    background-color: transparent;
+    border-color: blue;
+    border-width: 0px;
+    border-style: solid;
+    height: auto;
+}
+
+.list_view {
+    font-family: "Trebuchet MS", Verdana, "Comic Sans MS", sans-serif;
+    font-size: 10px;
+}
+
+.source_title_header {
+    font-family: "Trebuchet MS",Helvetica,"微软雅黑",SIMSUN,sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #E3D6B0;
+    margin: 1px 30px 1px 0;
+    padding: 0;
+    letter-spacing: .03em;
+    text-align: right;
+    border-bottom: 1px dashed #90a5cf;
+    text-shadow: 1px 1px 1px #AAA;
+}
+
+.refresh_lnk {
+    float: left;
+    font-family: "微软雅黑","宋体",sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    margin-top: 16px;
+    color: white;
+
+    position:relative;
+    background:#9db5e6;
+    *background-color:#797979;
+    padding:4px 10px;
+    margin:5px;
+    margin-top:8px;
+    box-shadow:1px 1px 5px #3d3d3d;
+    -moz-box-shadow:1px 1px 5px #3d3d3d;
+    -webkit-box-shadow:1px 1px 5px #3d3d3d;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    z-index:15;
+    display:inline;
+}
+
+.refresh_lnk:hover {
+    color:#e8e8e8;
+}
+
+.refresh_loading {
+    float: left;
+    margin-left: 5px;
+    margin-top: 18px;
+    display: none;
+}
+
+#refresh_time {
+    float: right;
+    font-family: "微软雅黑","宋体",sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    margin-left: 5px;
+    margin-top: 18px;
+    color: #CCC;
+    text-shadow: none;
+}
+
+.list_item {
+    padding: 5px 10px;
+    margin-top: 5px;
+    border: solid 0px blue;
+    border-radius: 6px;
+    padding-bottom: 5px;
+    _padding-bottom: 10px;
+    min-height: 70px;
+}
+
+.nail {
+    float: right;
+    padding: 0px 5px 0;
+    width: 60px;
+    color: #CCC;
+    font-size: 12px;
+    text-align: center;
+}
+
+.item_submit {
+    color: #999;
+    padding-bottom: 6px;
+    font: 12px "Trebuchet MS", Verdana, Georgia, "Times New Roman", serif;
+}
+
+.item_title {
+    font-size: 23px;
+    padding-bottom: 5px;
+    font-weight: 500;
+}
+
+.item_title .highlight_s {
+    font-size: 25px;
+    color: black;
+    font-weight: normal;
+}
+
+.item_summary {
+    padding: 5px;
+    line-height: 22px;
+    font-size: 14px;
+}
+
+.item_content {
+    display: none;
+    border-top: 1px dashed #DDD;
+    padding: 10px 10px 10px 10px;
+    background-color: #e8e8e8;
+}
+
+.item_content p {
+    font-family: "微软雅黑","Trebuchet MS", Verdana, Georgia, "Times New Roman", "宋体",sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.item_content p img {
+    max-width: 500px;
+    width: expression(this.width > 500 ? 500: true)
+    height: auto;
+    text-align: center
+}
+
+.more_loader {
+    font-family: "微软雅黑",SIMSUN,"Trebuchet MS", Verdana, "Comic Sans MS", sans-serif;
+    font-weight: bold;
+    color: #BBB;
+    font-size: 18px;
+    width: 100%;
+    line-height: 60px;
+    margin: 0 auto;
+    text-align: center;
+}

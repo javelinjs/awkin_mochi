@@ -17,15 +17,16 @@ function showitem(id) {
 function testdylan(id) {
     var json = {
         "action": "news",
-        "limit": "-1"
+        "limit": "1"
     };
     var data = JSON.stringify(json);
     //alert(data);
     $.post("/operation", {"data" : data},
         function(result) {
+            $("#list_view").append(generate_items(result.items));
             //alert(result.success);
             //alert(result.items[0].title);
-            alert(result.size);
+            //alert(result.size);
         }, "json"
     );
 }
@@ -41,6 +42,50 @@ function sendjson(id) {
             alert(result.status); 
         }, "json"
     );
+}
+
+function generate_items(item_array) {
+    var htmldata = "";
+    for (var i = 0; i < item_array.length; i++) {
+        htmldata += generate_item_html(item_array[i]);
+    }
+    return htmldata;
+}
+
+function generate_item_html(item) {
+    var htmldata = 
+    "<div class=\"list_item\">" + 
+        "<div class=\"nail\">" +
+            "<div>" +
+                "<a class=\"action-digg\" href=\"#\" title=\"我推荐\" style=\"color: rgb(204, 204, 204); \">	推荐[<em>3</em>]</a>" +
+            "</div>" +
+            "<div>" +
+            "<div class=\"thumb-shadow\">" + 
+                    "<img src=\"http://ww3.sinaimg.cn/thumbnail/6558c331jw1dn5qk01zc1j.jpg\">" +
+            "</div>" +
+            "</div>" +
+        "</div>" +
+        "<div class=\"item_submit\">" +
+            "<img src=\"images/bird_icon.jpg\" class=\"favicon\">" +
+            item.channel_title + " - " +
+            "<span class=\"postdata\">" + item.pubDate + "</span>" +
+        "</div>" +
+        "<h3 class=\"item_title\">" + 
+            "<a href=\"javascript:;\" onclick=\"showitem('{{ item.id_for_disp }}');\" class=\"highlight_s\">" +
+            item.title +
+            "</a>" +
+        "</h3>" +
+        "<p class=\"item_summary\">" +
+        "{{ item.content }}" +
+            "<a href=\"{{ item.link }}\" target=\"_blank\" title=\"查看原文\" class=\"origin\">[原文]</a>" +
+        "</p>" +
+        "<div class=\"item_content\" id=\"item{{ item.id_for_disp }}\">" +
+            "<p>" +
+            "{{ item.desc }}" +
+            "</p>" +
+        "</div>" +
+    "</div>";
+    return htmldata;
 }
 </script>
 
@@ -106,7 +151,7 @@ function sendjson(id) {
                         <p class="item_summary">
                             {{ item.content }}
                             <a href="{{ item.link }}" target="_blank" title="查看原文" class="origin">[原文]</a>
-                        <p>
+                        </p>
                         <div class="item_content" id="item{{ item.id_for_disp }}">
                             <p>
                             {{ item.desc }}
