@@ -8,25 +8,29 @@
 <script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
-function showitem(id) {
-    testdylan(id);
-    $("#item"+id).slideDown("normal");
+$(document).ready(function() {
+    news("15", 0);
+});
+
+function showitem(id, content_loaded) {
+    if (content_loaded) {
+        $("#item"+id).slideDown("normal");
+    } else {
+        alert("content not loaded");
+    }
     //sendjson(id);
 }
 
-function testdylan(id) {
+function news(limit, id) {
     var json = {
         "action": "news",
-        "limit": "1"
+        "limit": limit
     };
     var data = JSON.stringify(json);
     //alert(data);
     $.post("/operation", {"data" : data},
         function(result) {
             $("#list_view").append(generate_items(result.items));
-            //alert(result.success);
-            //alert(result.items[0].title);
-            //alert(result.size);
         }, "json"
     );
 }
@@ -47,12 +51,16 @@ function sendjson(id) {
 function generate_items(item_array) {
     var htmldata = "";
     for (var i = 0; i < item_array.length; i++) {
-        htmldata += generate_item_html(item_array[i]);
+        var content_loaded = true;
+        if (item_array[i].content == "") {
+            content_loaded = false;
+        }
+        htmldata += generate_item_html(item_array[i], content_loaded);
     }
     return htmldata;
 }
 
-function generate_item_html(item) {
+function generate_item_html(item, content_loaded) {
     var htmldata = 
     "<div class=\"list_item\">" + 
         "<div class=\"nail\">" +
@@ -71,22 +79,24 @@ function generate_item_html(item) {
             "<span class=\"postdata\">" + item.pubDate + "</span>" +
         "</div>" +
         "<h3 class=\"item_title\">" + 
-            "<a href=\"javascript:;\" onclick=\"showitem('{{ item.id_for_disp }}');\" class=\"highlight_s\">" +
+            "<a href=\"javascript:;\" onclick=\"showitem('" + item._id + "', " + content_loaded + ");\" class=\"highlight_s\">" +
             item.title +
             "</a>" +
         "</h3>" +
         "<p class=\"item_summary\">" +
-        "{{ item.content }}" +
-            "<a href=\"{{ item.link }}\" target=\"_blank\" title=\"查看原文\" class=\"origin\">[原文]</a>" +
+        item.desc +
+            "<a href=\"" + item.link + "\" target=\"_blank\" title=\"查看原文\" class=\"origin\">[原文]</a>" +
         "</p>" +
-        "<div class=\"item_content\" id=\"item{{ item.id_for_disp }}\">" +
+        "<div class=\"item_content\" id=\"item" + item._id +"\">" +
             "<p>" +
-            "{{ item.desc }}" +
+            item.content +
             "</p>" +
         "</div>" +
     "</div>";
     return htmldata;
 }
+/*
+*/
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -107,7 +117,7 @@ function generate_item_html(item) {
             </div>
             <div id="login">
                 <span id="login_left"></span>
-                <span id="hello">Hello, &nbsp; javelinjs</span>
+                <span id="hello">Hello, &nbsp; {{ username }}</span>
                 <div class="logout"><a href="#" target="_self" style="text-decoration:none">退出</a></div>
                 <span id="login_right"></span>
             </div>
@@ -125,7 +135,8 @@ function generate_item_html(item) {
                         <span id="refresh_time">上次更新:14:37</span>
                     </p>
                     <div class="clear"></div>
-                    {% for item in items %}
+                    <!--
+                    for item in items
                     <div class="list_item">
                         <div class="nail">
                             <div>
@@ -140,25 +151,25 @@ function generate_item_html(item) {
                         </div>
                         <div class="item_submit">
                             <img src="images/bird_icon.jpg" class="favicon">
-                            {{ item.channel_title }} - 
-                            <span class="postdata">{{ item.pubDate }}</span>
+                            item.channel_title - 
+                            <span class="postdata">item.pubDate</span>
                         </div>
                         <h3 class="item_title">
-                            <a href="javascript:;" onclick="showitem('{{ item.id_for_disp }}');" class="highlight_s">
-                            {{ item.title }}
+                            <a href="javascript:;" onclick="showitem('item.id');" class="highlight_s">
+                            item.title
                             </a>
                         </h3>
                         <p class="item_summary">
-                            {{ item.content }}
-                            <a href="{{ item.link }}" target="_blank" title="查看原文" class="origin">[原文]</a>
+                            item.content
+                            <a href="item.link" target="_blank" title="查看原文" class="origin">[原文]</a>
                         </p>
-                        <div class="item_content" id="item{{ item.id_for_disp }}">
+                        <div class="item_content" id="itemitem.id">
                             <p>
-                            {{ item.desc }}
+                            item.desc
                             </p>
                         </div>
                     </div>
-                    {% endfor %}
+                    endfor -->
                 </div>
             </div>
             <div class="more_loader">

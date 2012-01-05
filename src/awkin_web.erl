@@ -26,8 +26,9 @@ loop(Req, DocRoot) ->
             Method when Method =:= 'GET'; Method =:= 'HEAD' ->
                 case Path of
                     "read" ->
-                        Items = awkin_db:items(),
-                        {ok, HTMLOutput} = read_dtl:render([{items, Items}]),
+                        %Items = awkin_db:items(),
+                        %{ok, HTMLOutput} = read_dtl:render([{items, Items}]),
+                        {ok, HTMLOutput} = read_dtl:render([{username, "javelinjs"}]),
                         Req:respond({200, [{"Content-Type", "text/html"}],
                                 HTMLOutput});
                     _ ->

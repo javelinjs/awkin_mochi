@@ -20,6 +20,7 @@ news(S) ->
         catch _:_ -> 
             list_to_binary(integer_to_list(?SizeItemSetDef))
         end,
+    %Item = awkin_dylan:json_items(NumOfItem, <<"2">>),
     Item = awkin_dylan:json_items(NumOfItem),
     User = awkin_dylan:json_user(UserId),
     Auth = awkin_dylan:json_auth("test", "test"),

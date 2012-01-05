@@ -2,7 +2,7 @@
 
 #main_wrapper {
     margin: 0 auto;
-    width:70%;
+    width:80%;
     position:relative;
     background: white;
     z-index: 4;
@@ -95,10 +95,23 @@
     padding: 5px 10px;
     margin-top: 5px;
     border: solid 0px blue;
-    border-radius: 6px;
+    /*border-radius: 6px;*/
     padding-bottom: 5px;
     _padding-bottom: 10px;
     min-height: 70px;
+
+    /* bubble */
+    position:relative;
+    color:#000;
+    background:#f3961c;
+
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#e9ebf3), to(#ffffff));
+    background:-moz-linear-gradient(#e9ebf3, #ffffff);
+    background:-o-linear-gradient(#e9ebf3, #ffffff);
+    background:linear-gradient(#e9ebf3, #ffffff);
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
 }
 
 .nail {
