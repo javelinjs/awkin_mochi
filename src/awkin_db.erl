@@ -17,6 +17,7 @@ create_user(Email, Pwd) ->
             mongo:do(safe, master, Conn, ?MongoDB, fun()->
                         mongo:insert(user, {email, Email, pwd, Pwd}) 
                     end),
+            mongo:disconnect(Conn),
             true;
         _ ->
             false
@@ -30,6 +31,7 @@ get_content_of_item(ID) ->
                                 mongo:find_one(item, {'_id', {ID}})
                             end
                         ),
+    mongo:disconnect(Conn),
     {Res} =
         case DocTuple of
             {Doc} -> 
@@ -48,7 +50,9 @@ items() ->
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
                             fun() -> mongo:find(item, {}) end),
     Items = get_items(Cursor),
-    lists:map(fun(Item)->get_channel_from_item(Item, Conn) end, Items).
+    Res = lists:map(fun(Item)->get_channel_from_item(Item, Conn) end, Items),
+    mongo:disconnect(Conn),
+    Res.
     %Items.
     
 get_channel_from_item(Item, Conn) ->

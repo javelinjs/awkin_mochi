@@ -55,11 +55,11 @@ json_items(NumOfItem, ReplyNContent, BaseId) ->
                 {<<"reply_n_content">>, ReplyNContent}
             ]}.
 json_items(NumOfItem, ReplyNContent) ->
-    json_items(NumOfItem, ReplyNContent, <<"-1">>).
+    json_items(NumOfItem, ReplyNContent, <<"">>).
 json_items(NumOfItem) ->
-    json_items(NumOfItem, <<"-1">>, <<"-1">>).
+    json_items(NumOfItem, <<"-1">>, <<"">>).
 json_items() ->
-    json_items(<<"-1">>, <<"-1">>, <<"-1">>).
+    json_items(<<"-1">>, <<"-1">>, <<"">>).
 
 %user infomation
 json_user(UserId) ->
