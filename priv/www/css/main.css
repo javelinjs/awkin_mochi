@@ -105,10 +105,10 @@
     color:#000;
     background:#f3961c;
 
-    background:-webkit-gradient(linear, 0 0, 0 100%, from(#e9ebf3), to(#ffffff));
-    background:-moz-linear-gradient(#e9ebf3, #ffffff);
-    background:-o-linear-gradient(#e9ebf3, #ffffff);
-    background:linear-gradient(#e9ebf3, #ffffff);
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e9ebf3));
+    background:-moz-linear-gradient(#ffffff, #e9ebf3);
+    background:-o-linear-gradient(#ffffff, #e9ebf3);
+    background:linear-gradient(#ffffff, #e9ebf3);
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;

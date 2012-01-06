@@ -74,7 +74,6 @@ loop(Req, DocRoot) ->
     end.
 
 %% Internal API
-
 get_option(Option, Options) ->
     {proplists:get_value(Option, Options), proplists:delete(Option, Options)}.
 

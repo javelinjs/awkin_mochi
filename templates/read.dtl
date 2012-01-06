@@ -12,11 +12,16 @@ $(document).ready(function() {
     news("15", 0);
 });
 
+function refresh() {
+    $(".list_item").remove();
+    news("15", 0);
+}
+
 function showitem(id, content_loaded) {
     if (content_loaded) {
         $("#item"+id).slideDown("normal");
     } else {
-        alert("content not loaded");
+        get_content(id, "#item"+id)
     }
     //sendjson(id);
 }
@@ -30,9 +35,31 @@ function news(limit, id) {
     //alert(data);
     $.post("/operation", {"data" : data},
         function(result) {
-            $("#list_view").append(generate_items(result.items));
+            //alert(result.status);
+            $("#list_view").append(generate_items(result.data.items));
         }, "json"
     );
+}
+
+function get_content(id, elem) {
+    text = $(elem+" p").text();
+    if (text == "") {
+        $("#loading"+id).show();
+        var json = {
+            "action": "content",
+            "id": id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data" : data},
+            function(result) {
+                $(elem+" p").replaceWith("<p>"+result.data+"</p>");
+                $("#loading"+id).hide();
+                $(elem).slideDown("normal");
+            }, "json"
+        );
+    } else {
+        $(elem).slideDown("normal");
+    }
 }
 
 function sendjson(id) {
@@ -87,6 +114,9 @@ function generate_item_html(item, content_loaded) {
         item.desc +
             "<a href=\"" + item.link + "\" target=\"_blank\" title=\"查看原文\" class=\"origin\">[原文]</a>" +
         "</p>" +
+        "<div id=\"loading" + item._id + "\" style=\"display:none\"> " +
+            "<img src=\"./images/loading_more.gif\">&nbsp;&nbsp;正在加载..." +
+        "</div>" +
         "<div class=\"item_content\" id=\"item" + item._id +"\">" +
             "<p>" +
             item.content +
@@ -130,7 +160,7 @@ function generate_item_html(item, content_loaded) {
             <div id="main_content">
                 <div id="list_view" class="list_view">
                     <p class="source_title_header">
-                        <a href="#" class="refresh_lnk">刷新</a>
+                        <a href="javascript:;" onclick="refresh();" class="refresh_lnk">刷新</a>
                         <img id="refreshing" src="./images/loading_more.gif" class="refresh_loading" style="display:none;">
                         <span id="refresh_time">上次更新:14:37</span>
                     </p>
@@ -174,7 +204,7 @@ function generate_item_html(item, content_loaded) {
             </div>
             <div class="more_loader">
                 <img src="./images/loading_more.gif">
-                正在加载更多...
+                正在加载新鲜事...
             </div>
         </div>
     </div>

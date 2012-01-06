@@ -1,10 +1,10 @@
 -module(awkin_db).
--export([items/0, get_items/1]).
+-export([items/0, get_items/1, get_content_of_item/1]).
 -include("hrldir/config.hrl").
 
+% How to turn string into _id
 %A = list_to_integer("4ed60ef7d481ff1cd53f20bb", 16).
-%24398611576251793092550533307
-%<<A:96>>
+%{<<A:96>>}
 
 %user related
 create_user(Email, Pwd) ->
@@ -22,8 +22,27 @@ create_user(Email, Pwd) ->
             false
      end.
 
-
 %items related
+get_content_of_item(ID) ->
+    {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
+    {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
+                            fun() -> 
+                                mongo:find_one(item, {'_id', {ID}})
+                            end
+                        ),
+    {Res} =
+        case DocTuple of
+            {Doc} -> 
+                Content = bson:lookup(content, Doc),
+                % if 'content' field is empty, then lookup the 'desc' field
+                case Content of
+                    {<<>>} -> bson:lookup(desc, Doc);
+                    _ -> Content
+                end;
+            _ -> {<<"Empty">>}
+        end,
+    Res.
+
 items() ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
@@ -31,7 +50,7 @@ items() ->
     Items = get_items(Cursor),
     lists:map(fun(Item)->get_channel_from_item(Item, Conn) end, Items).
     %Items.
-
+    
 get_channel_from_item(Item, Conn) ->
     ChannelID = proplists:get_value(channel_id, Item, 0), 
     {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
