@@ -9,12 +9,36 @@
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    news("15", 0);
+    loading_bar(1);
+    news("15", "");
+    
+    $(window).scroll(function () {
+        var body = $("body");
+        if (($(window).height() + $(window).scrollTop()) >= body.height()) {
+            var last_item_id = $(".list_item:last").attr("itemid");
+            news("10", last_item_id);
+            //alert(lastitemid);
+        }
+    });
 });
 
 function refresh() {
+    loading_bar(1);
     $(".list_item").remove();
-    news("15", 0);
+    news("15", "");
+}
+
+function loading_bar(type) {
+    var htmldata;
+    if (type == 0) {
+        htmldata = "没有更多新鲜事了";
+    } else if (type == 1) {
+        htmldata = "<img src=\"./images/loading_more.gif\">正在加载新鲜事...";
+    } else if (type == 2) {
+        htmldata = "加载出错了！";
+    }
+
+    $("#more_loader_bottom").html(htmldata);
 }
 
 function showitem(id, content_loaded) {
@@ -26,17 +50,26 @@ function showitem(id, content_loaded) {
     //sendjson(id);
 }
 
-function news(limit, id) {
+function news(limit, baseid) {
     var json = {
         "action": "news",
-        "limit": limit
+        "limit": limit,
+        "base_id": baseid
     };
     var data = JSON.stringify(json);
     //alert(data);
     $.post("/operation", {"data" : data},
         function(result) {
-            //alert(result.status);
-            $("#list_view").append(generate_items(result.data.items));
+            if (result.status == "ok" && result.data.success == 1) {
+                if (result.data.size > 0) {
+                    $("#list_view").append(generate_items(result.data.items));
+                    loading_bar(1);
+                } else {
+                    loading_bar(0);
+                }
+            } else {
+                loading_bar(2);
+            }
         }, "json"
     );
 }
@@ -89,7 +122,7 @@ function generate_items(item_array) {
 
 function generate_item_html(item, content_loaded) {
     var htmldata = 
-    "<div class=\"list_item\">" + 
+    "<div class=\"list_item\" itemid=\"" + item._id + "\">" + 
         "<div class=\"nail\">" +
             "<div>" +
                 "<a class=\"action-digg\" href=\"#\" title=\"我推荐\" style=\"color: rgb(204, 204, 204); \">	推荐[<em>3</em>]</a>" +
@@ -202,7 +235,7 @@ function generate_item_html(item, content_loaded) {
                     endfor -->
                 </div>
             </div>
-            <div class="more_loader">
+            <div id="more_loader_bottom" class="more_loader">
                 <img src="./images/loading_more.gif">
                 正在加载新鲜事...
             </div>

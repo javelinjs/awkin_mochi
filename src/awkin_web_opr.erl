@@ -10,6 +10,7 @@ read(S) ->
 news(S) ->
     UserId = struct:get_value(<<"user">>, S),
     LimitStr = binary_to_list(struct:get_value(<<"limit">>, S)),
+    BaseId = struct:get_value(<<"base_id">>, S, <<"">>),
     NumOfItem = 
         try list_to_integer(LimitStr) of
             Limit ->
@@ -20,7 +21,7 @@ news(S) ->
         catch _:_ -> 
             list_to_binary(integer_to_list(?SizeItemSetDef))
         end,
-    Item = awkin_dylan:json_items(NumOfItem, <<"2">>),
+    Item = awkin_dylan:json_items(NumOfItem, <<"2">>, BaseId),
     %Item = awkin_dylan:json_items(NumOfItem),
     User = awkin_dylan:json_user(UserId),
     Auth = awkin_dylan:json_auth("test", "test"),
