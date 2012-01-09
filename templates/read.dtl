@@ -9,16 +9,27 @@
 <script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
+var current_item_id = "";
 $(document).ready(function() {
     loading_bar(1);
     news("15", "");
     
     $(window).scroll(function () {
+        //自动加载
         var body = $("body");
         if (($(window).height() + $(window).scrollTop()) >= body.height()) {
             var last_item_id = $(".list_item:last").attr("itemid");
             news("10", last_item_id);
-            //alert(lastitemid);
+        }
+        //右侧收起按钮
+        if (current_item_id != "") {
+            var feedback_right_div = $("#feedback_right");
+            var current_item = $("#item"+current_item_id);
+            if (feedback_right_div.offset().top 
+                    >= (current_item.offset().top+current_item.height())) {
+                feedback_right_div.fadeOut(1000);
+                current_item_id = "";
+            }
         }
     });
 });
@@ -51,6 +62,8 @@ function showitem(id, content_loaded) {
 
     //破防盗链
     img_build("#item"+id); 
+    current_item_id = id;
+    $("#feedback_right").show(1000);
     //$("#item" + id +" img").LoadImage(false, 0, 0, "./images/loading.gif");
     //sendjson(id);
 }
@@ -163,8 +176,6 @@ function generate_item_html(item, content_loaded) {
     "</div>";
     return htmldata;
 }
-/*
-*/
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -191,7 +202,7 @@ function generate_item_html(item, content_loaded) {
             </div>
         </div>
         <div class="clear"></div>
-        <div class="feedback">
+        <div id="feedback_right" class="feedback" style="display:none">
             <img src="./images/dislike.png">
             <!--<img src="./images/trash_empty.png">-->
             <!--<img src="./images/favor.png">-->
