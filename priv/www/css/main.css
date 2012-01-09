@@ -3,6 +3,7 @@
 #main_wrapper {
     margin: 0 auto;
     width:80%;
+    /*right:5%;*/
     position:relative;
     background: white;
     z-index: 4;
@@ -152,12 +153,19 @@
     border-top: 1px dashed #DDD;
     padding: 10px 10px 10px 10px;
     background-color: #e8e8e8;
+
+    font-family: "Microsoft Yahei", "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti !important;
+    font-size: 16px;
+    line-height: 26px;
+
+    color: #555
 }
 
 .item_content p {
+    /*
     font-family: "微软雅黑","Trebuchet MS", Verdana, Georgia, "Times New Roman", "宋体",sans-serif;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 22px; */
 }
 
 .item_content p img {
@@ -165,6 +173,17 @@
     width: expression(this.width > 500 ? 500: true)
     height: auto;
     text-align: center
+}
+
+.item_content a {
+    color: #2A85E8;
+    text-decoration: none;
+    outline: 0;
+    line-height: inherit;
+}
+
+.item_content a:hover {
+    color: #11639D;
 }
 
 .more_loader {
@@ -176,4 +195,17 @@
     line-height: 60px;
     margin: 0 auto;
     text-align: center;
+}
+
+.feedback {
+    position: fixed;
+    right: 5px;
+    float: right;
+    top: 50%;
+}
+
+.feedback img {
+    cursor: pointer;
+    width: 55px;
+    height: 55px;
 }

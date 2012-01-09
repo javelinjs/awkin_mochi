@@ -5,6 +5,7 @@
 <link href="/css/main.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="js/tools.js"></script>
 <script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
@@ -47,6 +48,10 @@ function showitem(id, content_loaded) {
     } else {
         get_content(id, "#item"+id)
     }
+
+    //破防盗链
+    img_build("#item"+id); 
+    //$("#item" + id +" img").LoadImage(false, 0, 0, "./images/loading.gif");
     //sendjson(id);
 }
 
@@ -125,11 +130,11 @@ function generate_item_html(item, content_loaded) {
     "<div class=\"list_item\" itemid=\"" + item._id + "\">" + 
         "<div class=\"nail\">" +
             "<div>" +
-                "<a class=\"action-digg\" href=\"#\" title=\"我推荐\" style=\"color: rgb(204, 204, 204); \">	推荐[<em>3</em>]</a>" +
+                "<a class=\"action-digg\" href=\"#\" title=\"收藏\" style=\"color: rgb(204, 204, 204); \">	收藏[<em>3</em>]</a>" +
             "</div>" +
             "<div>" +
             "<div class=\"thumb-shadow\">" + 
-                    "<img src=\"http://ww3.sinaimg.cn/thumbnail/6558c331jw1dn5qk01zc1j.jpg\">" +
+                    "<img src=\"./images/favor.png\">" +
             "</div>" +
             "</div>" +
         "</div>" +
@@ -186,6 +191,11 @@ function generate_item_html(item, content_loaded) {
             </div>
         </div>
         <div class="clear"></div>
+        <div class="feedback">
+            <img src="./images/dislike.png">
+            <!--<img src="./images/trash_empty.png">-->
+            <!--<img src="./images/favor.png">-->
+        </div>
         <div id="backtotop">
             <a href="javascript:;" onclick="goTop();" title="回到顶部">Top↑</a>
         </div>
