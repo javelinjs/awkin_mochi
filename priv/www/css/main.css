@@ -133,7 +133,8 @@
 .item_title {
     font-size: 23px;
     padding-bottom: 5px;
-    font-weight: 500;
+    font-weight: bold;
+    line-height: 24px;
 }
 
 .item_title .highlight_s {

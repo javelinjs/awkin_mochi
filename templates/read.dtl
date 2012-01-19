@@ -61,9 +61,11 @@ function showitem(id, content_loaded) {
     }
 
     //破防盗链
-    img_build("#item"+id); 
     current_item_id = id;
     $("#feedback_right").show(1000);
+    var img_build_func = _img_build("#item"+id);
+    setTimeout(img_build_func, 1000);
+    //img_build("#item"+id); 
     //$("#item" + id +" img").LoadImage(false, 0, 0, "./images/loading.gif");
     //sendjson(id);
 }

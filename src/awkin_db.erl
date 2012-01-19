@@ -10,11 +10,16 @@
 create_user(Email, Pwd) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
-                            fun()->mongo:find_one(user, {email, Email}) end),
+                            fun()->
+                                mongo:auth(?MongoUser, ?MongoPwd),
+                                mongo:find_one(user, {email, Email}) 
+                            end
+                   ),
     case Cursor of
         % first register
         {} -> 
             mongo:do(safe, master, Conn, ?MongoDB, fun()->
+                        mongo:auth(?MongoUser, ?MongoPwd),
                         mongo:insert(user, {email, Email, pwd, Pwd}) 
                     end),
             mongo:disconnect(Conn),
@@ -28,6 +33,7 @@ get_content_of_item(ID) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
                             fun() -> 
+                                mongo:auth(?MongoUser, ?MongoPwd),
                                 mongo:find_one(item, {'_id', {ID}})
                             end
                         ),
@@ -48,7 +54,10 @@ get_content_of_item(ID) ->
 items() ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
-                            fun() -> mongo:find(item, {}) end),
+                            fun() -> 
+                                mongo:auth(?MongoUser, ?MongoPwd),
+                                mongo:find(item, {}) 
+                            end),
     Items = get_items(Cursor),
     Res = lists:map(fun(Item)->get_channel_from_item(Item, Conn) end, Items),
     mongo:disconnect(Conn),
@@ -59,6 +68,7 @@ get_channel_from_item(Item, Conn) ->
     ChannelID = proplists:get_value(channel_id, Item, 0), 
     {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
                             fun() -> 
+                                mongo:auth(?MongoUser, ?MongoPwd),
                                 mongo:find_one(channel, {'_id', ChannelID})
                             end
                         ),

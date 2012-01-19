@@ -10,3 +10,9 @@ function img_build(parent_elem) {
         $(this).replaceWith(img_r);
     });
 }
+
+function _img_build(_parent_elem) {
+    return function() {
+        img_build(_parent_elem);       
+    }
+}
