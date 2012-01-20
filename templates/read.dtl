@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
+var reg_p = new RegExp("<p>([^^]*?)<\/p>","ig");
 var current_item_id = "";
 $(document).ready(function() {
     loading_bar(1);
@@ -25,8 +26,11 @@ $(document).ready(function() {
         if (current_item_id != "") {
             var feedback_right_div = $("#feedback_right");
             var current_item = $("#item"+current_item_id);
+            var current_list_item = $("#list_item"+current_item_id);
             if (feedback_right_div.offset().top 
-                    >= (current_item.offset().top+current_item.height())) {
+                    >= (current_item.offset().top+current_item.height())
+                 || feedback_right_div.offset().top
+                    <= current_list_item.offset().top) {
                 feedback_right_div.fadeOut(1000);
                 current_item_id = "";
             }
@@ -141,8 +145,14 @@ function generate_items(item_array) {
 }
 
 function generate_item_html(item, content_loaded) {
+    var desc = item.desc;
+    if (desc == null) {
+        desc = ""
+    } else if (desc.length > 140) {
+        desc = desc.substr(0, 140) + " ... "
+    }
     var htmldata = 
-    "<div class=\"list_item\" itemid=\"" + item._id + "\">" + 
+    "<div class=\"list_item\" id=\"list_item" + item._id + "\" itemid=\"" + item._id + "\">" + 
         "<div class=\"nail\">" +
             "<div>" +
                 "<a class=\"action-digg\" href=\"#\" title=\"收藏\" style=\"color: rgb(204, 204, 204); \">	收藏[<em>3</em>]</a>" +
@@ -164,8 +174,8 @@ function generate_item_html(item, content_loaded) {
             "</a>" +
         "</h3>" +
         "<p class=\"item_summary\">" +
-        item.desc +
-            "<a href=\"" + item.link + "\" target=\"_blank\" title=\"查看原文\" class=\"origin\">[原文]</a>" +
+        desc +
+            "<a href=\"" + item.link + "\" target=\"_blank\" title=\"查看原文\" class=\"origin\"> [原文]</a>" +
         "</p>" +
         "<div id=\"loading" + item._id + "\" style=\"display:none\"> " +
             "<img src=\"./images/loading_more.gif\">&nbsp;&nbsp;正在加载..." +

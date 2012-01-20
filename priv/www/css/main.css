@@ -103,6 +103,7 @@
 
     /* bubble */
     position:relative;
+    /*
     color:#000;
     background:#e9ebf3;
 
@@ -113,6 +114,7 @@
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
+    */
 }
 
 .nail {
