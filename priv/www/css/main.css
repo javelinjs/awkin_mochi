@@ -189,6 +189,12 @@
     color: #11639D;
 }
 
+.item_action {
+    /*background-color: #FAFAFA;*/
+    text-align: left;
+    /*border-bottom: 1px solid #90A5CF*/
+}
+
 .more_loader {
     font-family: "微软雅黑",SIMSUN,"Trebuchet MS", Verdana, "Comic Sans MS", sans-serif;
     font-weight: bold;
@@ -211,4 +217,36 @@
     cursor: pointer;
     width: 55px;
     height: 55px;
+}
+
+.item_action_icon {
+    float: left;
+    background: url(/images/widget39.png);
+    overflow: hidden;
+    display: block;
+    height: 16px;
+    width: 16px;
+    line-height: 16px!important;
+    margin-top: 2px;
+    margin-right: 10px;
+    margin-left: 2px;
+    margin-bottom: 4px;
+}
+.icon_share {
+    background-position: 0 -3264px;
+}
+.icon_like {
+    background-position: 0 -5536px;
+}
+.icon_like_on {
+    background-position: 0 -1216px;
+}
+.icon_dislike {
+    background-position: 0 0px;
+}
+.icon_favor {
+    background-position: 0 -1712px;
+}
+.icon_favor_on {
+    background-position: 0 -1696px;
 }

@@ -74,6 +74,12 @@ function showitem(id, content_loaded) {
     //sendjson(id);
 }
 
+function hideitem() {
+    $("#item"+current_item_id).slideUp("normal");
+    $("#feedback_right").fadeOut(1000);
+    current_item_id = "";
+}
+
 function news(limit, baseid) {
     var json = {
         "action": "news",
@@ -185,6 +191,14 @@ function generate_item_html(item, content_loaded) {
             item.content +
             "</p>" +
         "</div>" +
+        "<div class=\"item_action\">" +
+            "<span class=\"item_action_icon icon_favor\" title=\"收藏\"></span>" +
+            "<span class=\"item_action_icon icon_like\" title=\"喜欢\"></span>" +
+            "<span class=\"item_action_icon icon_share\" title=\"分享\"></span>" +
+            "<span class=\"item_action_icon icon_dislike\" title=\"一坨屎\"></span>" +
+            "<span><br /></span>" +
+        "</div>" +
+        "<div class=\"clear\" style=\"border-bottom: 1px solid #999\"></div>" +
     "</div>";
     return htmldata;
 }
@@ -215,7 +229,7 @@ function generate_item_html(item, content_loaded) {
         </div>
         <div class="clear"></div>
         <div id="feedback_right" class="feedback" style="display:none">
-            <img src="./images/dislike.png">
+            <img src="./images/dislike.png" onclick="hideitem()" >
             <!--<img src="./images/trash_empty.png">-->
             <!--<img src="./images/favor.png">-->
         </div>
