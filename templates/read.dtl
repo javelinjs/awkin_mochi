@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/js/json.js"></script>
 <script type="text/javascript" src="/js/public.js"></script>
 <script type="text/javascript">
-var reg_p = new RegExp("<p>([^^]*?)<\/p>","ig");
+//var reg_p = new RegExp("<p>([^^]*?)<\/p>","ig");
 var current_item_id = "";
 $(document).ready(function() {
     loading_bar(1);
@@ -125,19 +125,6 @@ function get_content(id, elem) {
     }
 }
 
-function sendjson(id) {
-    var json = {
-        "action": "read",
-        "item": id
-    };
-    var data = JSON.stringify(json);
-    $.post("/operation", {"data" : data},
-        function(result){
-            alert(result.status); 
-        }, "json"
-    );
-}
-
 function generate_items(item_array) {
     var htmldata = "";
     for (var i = 0; i < item_array.length; i++) {
@@ -192,16 +179,65 @@ function generate_item_html(item, content_loaded) {
             "</p>" +
         "</div>" +
         "<div class=\"item_action\">" +
-            "<span class=\"item_action_icon icon_favor\" title=\"收藏\"></span>" +
-            "<span class=\"item_action_icon icon_like\" title=\"喜欢\"></span>" +
-            "<span class=\"item_action_icon icon_share\" title=\"分享\"></span>" +
-            "<span class=\"item_action_icon icon_dislike\" title=\"一坨屎\"></span>" +
+            "<span class=\"item_action_icon icon_favor\" title=\"收藏\"" +
+                "itemid=\"" + item._id + "\" status=\"off\"" + 
+                "onclick=\"favor(this);\"></span>" +
+            "<span class=\"item_action_icon icon_like\" title=\"喜欢\"" +
+                "itemid=\"" + item._id + "\" status=\"off\"" + 
+                "onclick=\"like(this);\"></span>" +
+            "<span class=\"item_action_icon icon_share\" title=\"分享\"" +
+                "itemid=\"" + item._id + "\" status=\"off\"" + 
+                "onclick=\"share(this);\"></span>" +
+            "<span class=\"item_action_icon icon_dislike\" title=\"一坨屎\"" +
+                "itemid=\"" + item._id + "\" status=\"off\"" + 
+                "onclick=\"dislike(this);\"></span>" +
             "<span><br /></span>" +
         "</div>" +
         "<div class=\"clear\" style=\"border-bottom: 1px solid #999\"></div>" +
     "</div>";
     return htmldata;
 }
+
+function favor(elem) {
+    if ($(elem).attr("status") == "off") {
+        $(elem).attr("class", "item_action_icon icon_favor_on");
+        $(elem).attr("title", "取消收藏");
+        $(elem).attr("status", "on");
+    } else {
+        $(elem).attr("class", "item_action_icon icon_favor");
+        $(elem).attr("title", "收藏");
+        $(elem).attr("status", "off");
+    }
+}
+
+function like(elem) {
+    if ($(elem).attr("status") == "off") {
+        $(elem).attr("class", "item_action_icon icon_like_on");
+        $(elem).attr("title", "取消喜欢");
+        $(elem).attr("status", "on");
+    } else {
+        $(elem).attr("class", "item_action_icon icon_like");
+        $(elem).attr("title", "喜欢");
+        $(elem).attr("status", "off");
+    }
+}
+
+function dislike(elem) {
+    if ($(elem).attr("status") == "off") {
+        /* TODO */
+    } else {
+        /* TODO */
+    }
+}
+
+function share(elem) {
+    if ($(elem).attr("status") == "off") {
+        /* TODO */
+    } else {
+        /* TODO */
+    }
+}
+
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
