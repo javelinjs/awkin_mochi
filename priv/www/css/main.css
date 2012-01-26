@@ -165,6 +165,7 @@
 }
 
 .item_content p {
+    margin-top: 10px;
     /*
     font-family: "微软雅黑","Trebuchet MS", Verdana, Georgia, "Times New Roman", "宋体",sans-serif;
     font-size: 14px;
