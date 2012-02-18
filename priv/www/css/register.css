@@ -1,0 +1,143 @@
+@charset "utf-8";
+
+div[align=left] {
+    text-align: -webkit-left;
+}
+div {
+    display: block;
+}
+
+table {
+    font-family: arial, sans-serif;
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-size: medium;
+    font-variant: normal;
+    font-style: normal;
+    color: -webkit-text;
+    text-align: -webkit-auto;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 2px;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+td[nowrap=nowrap] {
+    white-space: -webkit-nowrap;
+}
+td[valign=top] {
+    vertical-align: top;
+}
+td[align=center] {
+    text-align: -webkit-center;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+    padding-top: 10px;
+}
+
+input:not([type="image"]), textarea {
+    box-sizing: border-box;
+}
+input:not([type]), input[type="color"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="email"], input[type="month"], input[type="number"], input[type="password"], input[type="tel"], input[type="text"], input[type="time"], input[type="url"], input[type="week"] {
+    padding: 1px 0px;
+}
+input, input[type="text"], input[type="password"], input[type="search"], isindex {
+    -webkit-appearance: textfield;
+    padding: 1px;
+    background-color: white;
+    border: 2px inset;
+    border-image: initial;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"] ::-webkit-file-upload-button, button {
+    padding: 1px 6px;
+}
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"] ::-webkit-file-upload-button, button {
+    -webkit-box-align: center;
+    text-align: center;
+    cursor: default;
+    color: buttontext;
+    padding: 2px 6px 3px;
+    border: 2px outset buttonface;
+    border-image: initial;
+    background-color: buttonface;
+    box-sizing: border-box;
+}
+input[type="button"], input[type="submit"], input[type="reset"] {
+    -webkit-appearance: push-button;
+    white-space: pre;
+}
+input, textarea, keygen, select, button, isindex {
+    margin: 0em;
+    font: -webkit-small-control;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: -webkit-auto;
+}
+
+h3 {
+    display: block;
+    font-size: 1.17em;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.formlabel {
+    font-family: arial, sans-serif;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+#main_reg_wrapper {
+    margin: 0 auto;
+    width:60%;
+    /*right:5%;*/
+    position:relative;
+    background: white;
+    z-index: 4;
+}
+
+.gaia.ops.gsl {
+    font-family: arial, sans-serif;
+    color: #36C;
+    font-weight: bold;
+}
+
+#register_form {
+    border-color: #CBDCED;;
+    border-width: 1px;
+    border-style: solid;
+}
+
+#reg_form_inner {
+    padding-top: 10px;
+    padding-right: 0px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}

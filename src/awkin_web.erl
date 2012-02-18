@@ -31,6 +31,10 @@ loop(Req, DocRoot) ->
                         {ok, HTMLOutput} = read_dtl:render([{username, "javelinjs"}]),
                         Req:respond({200, [{"Content-Type", "text/html"}],
                                 HTMLOutput});
+                    "register" ->
+                        {ok, HTMLOutput} = register_dtl:render([]),
+                        Req:respond({200, [{"Content-Type", "text/html"}],
+                                HTMLOutput});
                     _ ->
                         Req:serve_file(Path, DocRoot)
                 end;
