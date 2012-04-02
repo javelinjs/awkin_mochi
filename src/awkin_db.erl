@@ -1,13 +1,17 @@
 -module(awkin_db).
--export([items/0, get_items/1, get_content_of_item/1]).
+-export([sha_list/1, items/0, get_items/1, get_content_of_item/1]).
 -include("hrldir/config.hrl").
 
 % How to turn string into _id
 %A = list_to_integer("4ed60ef7d481ff1cd53f20bb", 16).
 %{<<A:96>>}
 
+sha_list(Data) ->
+    <<Mac:160/integer>> = crypto:sha(Data),
+    lists:flatten(io_lib:format("~40.16.0b", [Mac])).
+
 %user related
-create_user(Email, Pwd) ->
+create_user(Email, Nickname, Pwd) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
                             fun()->
@@ -20,7 +24,7 @@ create_user(Email, Pwd) ->
         {} -> 
             mongo:do(safe, master, Conn, ?MongoDB, fun()->
                         mongo:auth(?MongoUser, ?MongoPwd),
-                        mongo:insert(user, {email, Email, pwd, Pwd}) 
+                        mongo:insert(user, {email, Email, nickname, Nickname, pwd, Pwd}) 
                     end),
             mongo:disconnect(Conn),
             true;

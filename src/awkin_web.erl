@@ -8,6 +8,8 @@
 
 -export([start/1, stop/0, loop/2]).
 
+-include("hrldir/message.hrl").
+
 %% External API
 start(Options) ->
     {DocRoot, Options1} = get_option(docroot, Options),
@@ -28,13 +30,11 @@ loop(Req, DocRoot) ->
                     "read" ->
                         %Items = awkin_db:items(),
                         %{ok, HTMLOutput} = read_dtl:render([{items, Items}]),
-                        {ok, HTMLOutput} = read_dtl:render([{username, "javelinjs"}]),
-                        Req:respond({200, [{"Content-Type", "text/html"}],
-                                HTMLOutput});
+                        {ok, HTMLOutput} = read_dtl:render([{username, "Guest"}]),
+                        Req:respond({200, [{"Content-Type", "text/html"}], HTMLOutput});
                     "register" ->
-                        {ok, HTMLOutput} = register_dtl:render([]),
-                        Req:respond({200, [{"Content-Type", "text/html"}],
-                                HTMLOutput});
+                        {ok, HTMLOutput} = register_dtl:render([{hint, ""}, {email, ""}, {nickname, ""}]),
+                        Req:respond({200, [{"Content-Type", "text/html"}], HTMLOutput});
                     _ ->
                         Req:serve_file(Path, DocRoot)
                 end;
@@ -59,6 +59,29 @@ loop(Req, DocRoot) ->
                         DataOut = mochijson2:encode(Result),
 
                         Req:ok({"application/json", [], [DataOut]});
+                    "register" ->
+                        PostData = Req:parse_post(),
+                        Email = proplists:get_value("Email", PostData, ""),
+                        Nickname = proplists:get_value("Nickname", PostData, Email),
+                        Pwd = proplists:get_value("Pwd", PostData, ""),
+                        PwdAgain = proplists:get_value("PwdAgain", PostData, ""),
+                        {ok, HTMLOutput} = 
+                            if 
+                            Email =:= "" ->
+                                register_dtl:render([{hint, ?REG_HINT_EmptyEmail}, {email, ""}, 
+                                                        {nickname, ""}]);
+                            Pwd =:= "" ->
+                                register_dtl:render([{hint, ?REG_HINT_EmptyPwd}, {email, Email},
+                                                        {nickname, Nickname}]);
+                            Pwd =/= PwdAgain ->
+                                register_dtl:render([{hint, ?REG_HINT_PwdNotMatch}, {email, Email},
+                                                        {nickname, Nickname}]);
+                            true ->
+                                io:format("~s\n~s\n~s\n~s\n~s\n", [Email, Nickname, Pwd, 
+                                            PwdAgain, awkin_db:sha_list(list_to_binary(Pwd))]),
+                                read_dtl:render([{username, "Guest"}])
+                            end,
+                        Req:respond({200, [{"Content-Type", "text/html"}], HTMLOutput});
                     _ ->
                         Req:not_found()
                 end;

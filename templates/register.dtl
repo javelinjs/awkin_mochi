@@ -42,7 +42,7 @@
         <br />
         <div id="register_form">
         <div id="reg_form_inner">
-            <form action="" method="post" name="createid" id="createid">
+            <form action="/register" method="post" name="createid" id="createid">
             <div class="clear" align="left"></div>
             <table><tbody>
             <tr> <td colspan="2" valign="top">
@@ -50,18 +50,18 @@
                   开始使用 Awkin <br/>
                 </span> </td> </tr>
             <tr> <td><label class="formlabel">注册邮箱:</label></td>
-            <td><input type="text" name="LastName" id="LastName" size="30" value="" n="1"></td>
+            <td><input type="text" name="Email" id="Email" size="30" value="{{ email }}" n="1"></td>
             </tr>
             <tr> <td><label class="formlabel">昵称:</label></td>
-            <td><input type="text" name="LastName" id="LastName" size="30" value="" n="1"></td>
+            <td><input type="text" name="Nickname" id="Nickname" size="30" value="{{ nickname }}" n="1"></td>
             </tr>
             <tr> <td><label class="formlabel">密码:</label></td>
-            <td><input type="password" name="LastName" id="LastName" size="30" value="" n="1"></td>
+            <td><input type="password" name="Pwd" id="Pwd" size="30" value="" n="1"></td>
             </tr>
             <tr> <td><label class="formlabel">再次输入密码:</label></td>
-            <td><input type="password" name="LastName" id="LastName" size="30" value="" n="1"></td>
+            <td><input type="password" name="PwdAgain" id="PwdAgain" size="30" value="" n="1"></td>
             </tr>
-            <tr> <td colspan="1"> &nbsp; </td>
+            <tr> <td colspan="1" ><label class="hint"> {{ hint }}&nbsp; </label></td>
                 <td colspan="1" align="center">
                     <input style="width:21em" id="submitbutton" name="submitbutton" type="SUBMIT" value='创建我的帐户' /> 
                 </td>
