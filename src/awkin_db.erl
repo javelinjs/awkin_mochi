@@ -1,5 +1,6 @@
 -module(awkin_db).
--export([sha_list/1, items/0, get_items/1, get_content_of_item/1]).
+%-export([sha_list/1, items/0, get_items/1, get_content_of_item/1]).
+-export([sha_list/1, exist_user/1, create_user/3]).
 -include("hrldir/config.hrl").
 
 % How to turn string into _id
@@ -11,7 +12,7 @@ sha_list(Data) ->
     lists:flatten(io_lib:format("~40.16.0b", [Mac])).
 
 %user related
-create_user(Email, Nickname, Pwd) ->
+exist_user(Email) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 
                             fun()->
@@ -20,15 +21,22 @@ create_user(Email, Nickname, Pwd) ->
                             end
                    ),
     case Cursor of
+        {} -> false;
+        _ -> true 
+    end.
+
+create_user(Email, Nickname, Pwd) ->
+    case exist_user(Email) of
         % first register
-        {} -> 
+        false -> 
+            {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
             mongo:do(safe, master, Conn, ?MongoDB, fun()->
                         mongo:auth(?MongoUser, ?MongoPwd),
-                        mongo:insert(user, {email, Email, nickname, Nickname, pwd, Pwd}) 
+                        mongo:insert(user, {email, Email, nickname, Nickname, pwd, sha_list(Pwd)}) 
                     end),
             mongo:disconnect(Conn),
             true;
-        _ ->
+        true ->
             false
      end.
 
