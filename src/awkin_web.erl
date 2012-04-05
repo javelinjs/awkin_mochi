@@ -46,7 +46,6 @@ loop(Req, DocRoot) ->
                 case Path of
                 "operation" ->
                     PostData = Req:parse_post(),
-                    %Username = proplists:get_value("username", PostData, "Anonymous"),
                     Json = proplists:get_value("data", PostData),
                     Struct = mochijson2:decode(Json),
                     A = struct:get_value(<<"action">>, Struct),
@@ -63,6 +62,13 @@ loop(Req, DocRoot) ->
                     DataOut = mochijson2:encode(Result),
 
                     Req:ok({"application/json", [], [DataOut]});
+                "login" ->
+                    %TODO
+                    %try awkin_user:cookie_decode("aa")
+                    %catch
+                        %error:_ -> orz
+                    %end.
+                    hah;
                 "register" ->
                     PostData = Req:parse_post(),
                     Email = proplists:get_value("Email", PostData, ""),
