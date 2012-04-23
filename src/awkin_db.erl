@@ -6,6 +6,7 @@
 %A = list_to_integer("4ed60ef7d481ff1cd53f20bb", 16).
 %{<<A:96>>}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %items related
 get_content_of_item(ID) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),

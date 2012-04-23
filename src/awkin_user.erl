@@ -2,33 +2,28 @@
 -compile(export_all).
 -include("hrldir/config.hrl").
 
-salt() ->
-    {_, _, Salt} = erlang:now(),
-    integer_to_list(Salt).
-
-sha_list(Data) ->
-    <<Mac:160/integer>> = crypto:sha(Data),
-    lists:flatten(io_lib:format("~40.16.0b", [Mac])).
-
 %cookie related
 cookie_auth_string(Uid, PwdEncoded, Salt) ->
-    sha_list(Salt ++ sha_list(Uid++PwdEncoded++Salt) ++ Uid).
+    tools:sha_list(Salt ++ tools:sha_list(Uid++PwdEncoded++Salt) ++ Uid).
 
 cookie_encode(Uid, Nickname, PwdEncoded, Salt) ->
-    Uid ++ "\t" ++ Nickname ++ "\t" ++ cookie_auth_string(Uid, PwdEncoded, Salt).
+    Uid ++ "||" ++ Nickname ++ "||" ++ cookie_auth_string(Uid, PwdEncoded, Salt).
 cookie_decode(Cookie) ->
-    Tokens = string:tokens(Cookie, "\t"),
+    Tokens = string:tokens(Cookie, "||"),
     [Uid, Nickname, AuthString] = Tokens,
     %proplists
     [{"uid", Uid}, {"nickname", Nickname}, {"authstring", AuthString}].
 
 cookie(Uid, Nickname, PwdEncoded, Salt, Expired) ->
-    User = Uid ++ "\t" ++ Nickname ++ "\t" ++ cookie_auth_string(Uid, PwdEncoded, Salt),
+    User = cookie_encode(Uid, Nickname, PwdEncoded, Salt),
     mochiweb_cookies:cookie("user", User, [{path, "/"}, {max_age, Expired}]).
+cookie_clear() ->
+    mochiweb_cookies:cookie("user", "", [{path, "/"}]).
+    
 
 %db related
 pwd_encode(Pwd, Salt) ->
-    sha_list(sha_list(Pwd) ++ Salt).
+    tools:sha_list(tools:sha_list(Pwd) ++ Salt).
 
 exist(Email) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
@@ -47,7 +42,7 @@ create(Email, Nickname, Pwd) ->
     case exist(Email) of
     % first register
     false -> 
-        Salt = salt(),
+        Salt = tools:salt(),
         PwdEncoded = pwd_encode(Pwd, Salt),
         {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
         mongo:do(safe, master, Conn, ?MongoDB, fun()->
@@ -66,7 +61,7 @@ find_by_email(Email) ->
     {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB,
                                 fun() ->
                                     mongo:auth(?MongoUser, ?MongoPwd),
-                                    mongo:find_one(user, {email, {Email}})
+                                    mongo:find_one(user, {email, Email})
                                 end
                             ),
     mongo:disconnect(Conn),
