@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="/css/public.css" rel="stylesheet" type="text/css" />
+<link href="/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/css/register.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="/js/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="js/tools.js"></script>
+<script type="text/javascript" src="/js/json.js"></script>
+<script type="text/javascript" src="/js/public.js"></script>
+<script type="text/javascript">
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Awkin·发现世界</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="top">
+            <div id="link">
+                <a href="#" target="_blank">关于Awkin</a>
+                <a href="#" target="_blank">Awkin微博</a>
+                <a href="#" target="_blank">RSS</a>
+            </div>
+            <div class="clear"></div>
+            <div id="logo">
+                <img height="40" width="58" src="./images/rover_small.png" />
+            </div>
+            <div id="login">
+                <span id="login_left"></span>
+                <span id="hello">Welcome to &nbsp; Awkin</span>
+                <div class="logout"><a href="/register" target="_self" style="text-decoration:none">注册</a></div>
+                <span id="login_right"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div id="main_reg_wrapper">
+        <h3>登陆&nbsp;Awkin</h3>
+        <div>您可以使用自己的&nbsp;Awkin&nbsp;帐户获取个性化的内容推荐</div>
+        <br />
+        <div id="register_form">
+        <div id="reg_form_inner">
+            <form action="/login" method="post" name="createid" id="createid">
+            <div class="clear" align="left"></div>
+            <table><tbody>
+            <tr> <td colspan="2" valign="top">
+                <span class="gaia ops gsl">
+                  使用&nbsp;Awkin&nbsp;账户 <br/>
+                </span> </td> </tr>
+            <tr> <td><label class="formlabel">邮箱:</label></td>
+            <td><input type="text" name="Email" id="Email" size="30" value="" n="1"></td>
+            </tr>
+            <tr> <td><label class="formlabel">密码:</label></td>
+            <td><input type="password" name="Pwd" id="Pwd" size="30" value="" n="1"></td>
+            </tr>
+            <tr> <td colspan="1" ><label class="hint"> {{ hint }}&nbsp; </label></td>
+                <td colspan="1" align="center">
+                    <input style="width:21em" id="submitbutton" name="submitbutton" type="SUBMIT" value='登陆' /> 
+                </td>
+            </tr>
+            </tbody></table>
+            </form>
+        </div>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -21,13 +21,13 @@ news(S) ->
         catch _:_ -> 
             list_to_binary(integer_to_list(?SizeItemSetDef))
         end,
-    Item = awkin_dylan:json_items(NumOfItem, <<"2">>, BaseId),
-    %Item = awkin_dylan:json_items(NumOfItem),
-    User = awkin_dylan:json_user(UserId),
-    Auth = awkin_dylan:json_auth("test", "test"),
-    Cmd = awkin_dylan:cmd_get_item(Auth, User, Item),
+    Item = awkin_dylan_cli:json_items(NumOfItem, <<"2">>, BaseId),
+    %Item = awkin_dylan_cli:json_items(NumOfItem),
+    User = awkin_dylan_cli:json_user(UserId),
+    Auth = awkin_client:json_auth("test", "test"),
+    Cmd = awkin_dylan_cli:cmd_get_item(Auth, User, Item),
     % send request
-    Res = awkin_dylan:send_cmd(?DylanHost, ?DylanPort, Cmd),
+    Res = awkin_dylan_cli:send_cmd(?DylanHost, ?DylanPort, Cmd),
     %io:format("~s", [Res]),
     ResJ = mochijson2:decode(Res),
     {struct, [{<<"status">>, <<"ok">>}, {<<"data">>, ResJ}]}.
