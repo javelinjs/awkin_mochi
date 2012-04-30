@@ -259,7 +259,7 @@ function share(elem) {
             <div id="login">
                 <span id="login_left"></span>
                 <span id="hello">Hello, &nbsp; {{ username }}</span>
-                <div class="logout"><a href="#" target="_self" style="text-decoration:none">退出</a></div>
+                <div class="logout"><a href="{{ login_url }}" target="_self" style="text-decoration:none">{{ login_disp }}</a></div>
                 <span id="login_right"></span>
             </div>
         </div>
