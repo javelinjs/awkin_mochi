@@ -3,19 +3,9 @@
 
 -include("hrldir/config.hrl").
 
-send_cmd(Host, Port, Cmd) ->
-    awkin_client:send_cmd(Host, Port, Cmd, ?CJEnd).
+send_cmd(Cmd) ->
+    awkin_client:send_cmd_nonblocking(?CJHost, ?CJPort, Cmd).
 
-cmd_click(Auth, User, Item) ->
-    cmd(Auth, User, Item, <<"click">>).
-cmd_favor(Auth, User, Item) ->
-    cmd(Auth, User, Item, <<"favor">>).
-cmd_like(Auth, User, Item) ->
-    cmd(Auth, User, Item, <<"like">>).
-cmd_dislike(Auth, User, Item) ->
-    cmd(Auth, User, Item, <<"dislike">>).
-cmd_share(Auth, User, Item) ->
-    cmd(Auth, User, Item, <<"share">>).
 cmd(Auth, User, Item, Action) ->
     Data = {struct, [{<<"user">>, User},
                 {<<"item">>, Item}

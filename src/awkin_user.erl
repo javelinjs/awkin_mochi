@@ -16,7 +16,7 @@ cookie_decode(Cookie) ->
     [{uid, Uid}, {nickname, Nickname}, {authstring, AuthString}].
 
 cookie(UserInfoPropList, Expired) ->
-    Uid = integer_to_list(proplists:get_value(id_for_disp, UserInfoPropList)),
+    Uid = proplists:get_value(id_for_disp, UserInfoPropList),
     PwdEncoded = proplists:get_value(pwd, UserInfoPropList),
     Salt = proplists:get_value(salt2, UserInfoPropList),
     Nickname = proplists:get_value(nickname, UserInfoPropList),
@@ -87,7 +87,7 @@ find_by_id(IDStr) ->
         {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
                                         fun() ->
                                             mongo:auth(?MongoUser, ?MongoPwd),
-                                            mongo:find_one(user, {'_id', {IDB}})
+                                            mongo:find_one(user, {'_id', IDB})
                                         end
                                 ),
         mongo:disconnect(Conn),
@@ -118,7 +118,7 @@ fetch_to_proplist(Doc) ->
 fetch_cookie(Cookie) ->
     case Cookie of
     S when S =:= not_found; S =:= "" ->
-        {{?GuestId, ?GuestName}, {?DISP_LOGIN, ?URL_LOGIN}};
+        {{integer_to_list(?GuestId), ?GuestName}, {?DISP_LOGIN, ?URL_LOGIN}};
     UserCookie ->
         UserList = awkin_user:cookie_decode(UserCookie),
         {{proplists:get_value(uid, UserList), proplists:get_value(nickname, UserList)},

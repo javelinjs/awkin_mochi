@@ -56,7 +56,9 @@ loop(Req, DocRoot) ->
             case Path of
             "operation" ->
                 Json = proplists:get_value("data", PostData),
-                Struct = mochijson2:decode(Json),
+                %Struct = mochijson2:decode(Json),
+                Struct = struct:set_value(<<"user">>, list_to_binary(G_UserId), 
+                                            mochijson2:decode(Json)),
                 A = struct:get_value(<<"action">>, Struct),
 
                 % take action according to the user input

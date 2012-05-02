@@ -13,19 +13,18 @@ mongoid_to_list(ID) ->
 list_to_mongoid(IDStr) ->
     try list_to_integer(IDStr, 16) of
     ID ->
-        {ok, <<ID:96>>}
+        {ok, {<<ID:96>>}}
     catch _:_ ->
-        {fail, <<>>}
+        {fail, {}}
     end.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %items related
 get_content_of_item(ID) ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
                             fun() -> 
                                 mongo:auth(?MongoUser, ?MongoPwd),
-                                mongo:find_one(item, {'_id', {ID}})
+                                mongo:find_one(item, {'_id', ID})
                             end
                         ),
     mongo:disconnect(Conn),
@@ -42,6 +41,7 @@ get_content_of_item(ID) ->
         end,
     Res.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 items() ->
     {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
     {ok, Cursor} = mongo:do(unsafe, slave_ok, Conn, ?MongoDB, 

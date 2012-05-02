@@ -1,6 +1,9 @@
 -module(awkin_client).
 -compile(export_all).
 
+send_cmd_nonblocking(Host, Port, Cmd) ->
+    {ok, Socket} = gen_tcp:connect(Host, Port, [binary, {packet, 0}]),
+    gen_tcp:send(Socket, Cmd ++ "\r\n").
 send_cmd(Host, Port, Cmd, EndSignal) ->
     {ok, Socket} = gen_tcp:connect(Host, Port, [binary, {packet, 0}]),
     ok = gen_tcp:send(Socket, Cmd ++ "\r\n"),

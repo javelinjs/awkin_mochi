@@ -64,6 +64,16 @@ function showitem(id, content_loaded) {
         get_content(id, "#item"+id)
     }
 
+    //click feedback
+    var json = {
+        "action": "click",
+        "item": id
+    };
+    var data = JSON.stringify(json);
+    $.post("/operation", {"data" : data},
+        function(result) {}, "json"
+    );
+
     //破防盗链
     current_item_id = id;
     $("#feedback_right").show(1000);
@@ -181,16 +191,16 @@ function generate_item_html(item, content_loaded) {
         "<div class=\"item_action\">" +
             "<span class=\"item_action_icon icon_favor\" title=\"收藏\"" +
                 "itemid=\"" + item._id + "\" status=\"off\"" + 
-                "onclick=\"favor(this);\"></span>" +
+                "onclick=\"favor(this," + item._id + ");\"></span>" +
             "<span class=\"item_action_icon icon_like\" title=\"喜欢\"" +
                 "itemid=\"" + item._id + "\" status=\"off\"" + 
-                "onclick=\"like(this);\"></span>" +
+                "onclick=\"like(this," + item._id + ");\"></span>" +
             "<span class=\"item_action_icon icon_share\" title=\"分享\"" +
                 "itemid=\"" + item._id + "\" status=\"off\"" + 
-                "onclick=\"share(this);\"></span>" +
+                "onclick=\"share(this," + item._id + ");\"></span>" +
             "<span class=\"item_action_icon icon_dislike\" title=\"一坨屎\"" +
                 "itemid=\"" + item._id + "\" status=\"off\"" + 
-                "onclick=\"dislike(this);\"></span>" +
+                "onclick=\"dislike(this," + item._id + ");\"></span>" +
             "<span><br /></span>" +
         "</div>" +
         "<div class=\"clear\" style=\"border-bottom: 1px solid #999\"></div>" +
@@ -198,27 +208,63 @@ function generate_item_html(item, content_loaded) {
     return htmldata;
 }
 
-function favor(elem) {
+function favor(elem, id) {
     if ($(elem).attr("status") == "off") {
-        $(elem).attr("class", "item_action_icon icon_favor_on");
-        $(elem).attr("title", "取消收藏");
-        $(elem).attr("status", "on");
+        var json = {
+            "action": "favor",
+            "item": id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data" : data},
+            function(result) {
+                $(elem).attr("class", "item_action_icon icon_favor_on");
+                $(elem).attr("title", "取消收藏");
+                $(elem).attr("status", "on");
+            }, "json"
+        );
     } else {
-        $(elem).attr("class", "item_action_icon icon_favor");
-        $(elem).attr("title", "收藏");
-        $(elem).attr("status", "off");
+        var json = {
+            "action": "unfavor", 
+            "item": id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data" : data},
+            function(result) {
+                $(elem).attr("class", "item_action_icon icon_favor");
+                $(elem).attr("title", "收藏");
+                $(elem).attr("status", "off");
+            }, "json"
+        );
     }
 }
 
-function like(elem) {
+function like(elem, id) {
     if ($(elem).attr("status") == "off") {
-        $(elem).attr("class", "item_action_icon icon_like_on");
-        $(elem).attr("title", "取消喜欢");
-        $(elem).attr("status", "on");
+        var json = {
+            "action": "like",
+            "item": id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data": data},
+            function(result) {
+                $(elem).attr("class", "item_action_icon icon_like_on");
+                $(elem).attr("title", "取消喜欢");
+                $(elem).attr("status", "on");
+            }, "json"
+        );
     } else {
-        $(elem).attr("class", "item_action_icon icon_like");
-        $(elem).attr("title", "喜欢");
-        $(elem).attr("status", "off");
+        var json = {
+            "action": "unlike",
+            "item": id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data": data},
+            function(result) {
+                $(elem).attr("class", "item_action_icon icon_like");
+                $(elem).attr("title", "喜欢");
+                $(elem).attr("status", "off");
+            }, "json"
+        );
     }
 }
 
