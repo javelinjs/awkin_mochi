@@ -52,15 +52,16 @@ create(Email, Nickname, Pwd) ->
         Salt = tools:salt(),
         PwdEncoded = pwd_encode(Pwd, Salt),
         {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
-        mongo:do(safe, master, Conn, ?MongoDB, fun()->
-                    mongo:auth(?MongoUser, ?MongoPwd),
-                    mongo:insert(user, {email, Email, nickname, Nickname, pwd, PwdEncoded,
-                                        salt1, Salt, salt2, Salt}) 
-                end),
+        {ok, ID} = mongo:do(safe, master, Conn, ?MongoDB, fun()->
+                        mongo:auth(?MongoUser, ?MongoPwd),
+                        mongo:insert(user, {email, Email, nickname, 
+                                            Nickname, pwd, PwdEncoded, 
+                                            salt1, Salt, salt2, Salt}) 
+                    end),
         mongo:disconnect(Conn),
-        true;
+        {ok, ID};
     true ->
-        false
+        {fail, {}}
     end.
 
 find_by_email(Email) ->
@@ -80,9 +81,8 @@ find_by_email(Email) ->
     end.
 find_by_id(IDStr) ->
     %IDStr = binary_to_list(struct:get_value(<<"id">>, S)),
-    try list_to_integer(IDStr, 16) of
-    ID ->
-        IDB = <<ID:96>>,
+    case awkin_db:list_to_mongoid(IDStr) of
+    {ok, IDB} ->
         {ok, Conn} = mongo:connect({?MongoHost, ?MongoPort}),
         {ok, DocTuple} = mongo:do(unsafe, slave_ok, Conn, awkin,
                                         fun() ->
@@ -96,8 +96,8 @@ find_by_id(IDStr) ->
             fetch_to_proplist(Doc);
         _ ->
             not_found
-        end
-    catch _:_ ->
+        end;
+    {fail, _} ->
         not_found
     end.
 
@@ -109,8 +109,7 @@ fetch_to_proplist(Doc) ->
     {Salt1} = bson:lookup(salt1, Doc),
     {Salt2} = bson:lookup(salt2, Doc),
 
-    {IDBinary} = ID,
-    <<IDForDisp:96>> = IDBinary,
+    IDForDisp = awkin_db:mongoid_to_list(ID),
 
     [{id, ID}, {id_for_disp, IDForDisp}, {email, Email}, {nickname, Nickname},
         {pwd, Pwd}, {salt1, Salt1}, {salt2, Salt2}].

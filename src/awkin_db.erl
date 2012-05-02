@@ -6,6 +6,18 @@
 %A = list_to_integer("4ed60ef7d481ff1cd53f20bb", 16).
 %{<<A:96>>}
 
+mongoid_to_list(ID) ->
+    {IDBinary} = ID,
+    <<IDInteger:96>> = IDBinary,
+    integer_to_list(IDInteger, 16).
+list_to_mongoid(IDStr) ->
+    try list_to_integer(IDStr, 16) of
+    ID ->
+        {ok, <<ID:96>>}
+    catch _:_ ->
+        {fail, <<>>}
+    end.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %items related
 get_content_of_item(ID) ->
