@@ -4,7 +4,8 @@
 -include("hrldir/config.hrl").
 
 send_cmd(Cmd) ->
-    awkin_client:send_cmd_nonblocking(?CJHost, ?CJPort, Cmd).
+    %awkin_client:send_cmd_nonblocking(?CJHost, ?CJPort, Cmd).
+    awkin_client:send_cmd(?CJHost, ?CJPort, Cmd, ?CJEnd).
 
 cmd(Auth, User, Item, Action) ->
     Data = {struct, [{<<"user">>, User},
