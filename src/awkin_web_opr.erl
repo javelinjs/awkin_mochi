@@ -1,6 +1,6 @@
 -module(awkin_web_opr).
 -export([news/1, content/1, click/1, unclick/1, favor/1, unfavor/1, 
-            like/1, unlike/1, dislike/1, undislike/1, share/1]).
+            like/1, unlike/1, dislike/1, undislike/1, share/1, show/1]).
 -include("hrldir/config.hrl").
 
 %Feedback
@@ -15,6 +15,8 @@ feedback(S, Action) ->
     awkin_cj_cli:send_cmd(Cmd),
     {struct, [{<<"status">>, <<"ok">>}]}.
     %{struct, [{<<"status">>, <<"ok">>}, {<<"id">>, ID}]}.
+show(S) ->
+    feedback(S, <<"show">>).
 click(S) ->
     feedback(S, <<"click">>).
 unclick(S) ->

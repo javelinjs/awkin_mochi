@@ -74,8 +74,8 @@ function showitem(id, content_loaded) {
         function(result) {}, "json"
     );
 
-    //破防盗链
     current_item_id = id;
+    //破防盗链
     $("#feedback_right").show(1000);
     var img_build_func = _img_build("#item"+id);
     setTimeout(img_build_func, 1000);
@@ -143,6 +143,16 @@ function generate_items(item_array) {
             content_loaded = false;
         }
         htmldata += generate_item_html(item_array[i], content_loaded);
+
+        //item show feedback
+        var json = {
+            "action": "show",
+            "item": item_array[i]._id
+        };
+        var data = JSON.stringify(json);
+        $.post("/operation", {"data" : data},
+            function(result) {}, "json"
+        );
     }
     return htmldata;
 }
