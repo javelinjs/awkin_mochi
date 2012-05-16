@@ -158,6 +158,10 @@ function generate_items(item_array) {
 }
 
 function generate_item_html(item, content_loaded) {
+    var highlight = new Array("highlight_s",
+                                "highlight_m1",
+                                "highlight_m2",
+                                "highlight_l");
     var desc = item.desc;
     if (desc == null) {
         desc = ""
@@ -168,7 +172,7 @@ function generate_item_html(item, content_loaded) {
     "<div class=\"list_item\" id=\"list_item" + item._id + "\" itemid=\"" + item._id + "\">" + 
         "<div class=\"nail\">" +
             "<div>" +
-                "<a class=\"action-digg\" href=\"#\" title=\"收藏\" style=\"color: rgb(204, 204, 204); \">	收藏[<em>3</em>]</a>" +
+                "<a class=\"action-digg\" href=\"#\" title=\"收藏\" style=\"color: rgb(204, 204, 204); \">	收藏[<em>0</em>]</a>" +
             "</div>" +
             "<div>" +
             "<div class=\"thumb-shadow\">" + 
@@ -182,7 +186,7 @@ function generate_item_html(item, content_loaded) {
             "<span class=\"postdata\">" + item.pubDate + "</span>" +
         "</div>" +
         "<h3 class=\"item_title\">" + 
-            "<a href=\"javascript:;\" onclick=\"showitem('" + item._id + "', " + content_loaded + ");\" class=\"highlight_s\">" +
+            "<a href=\"javascript:;\" onclick=\"showitem('" + item._id + "', " + content_loaded + ");\" class=\"" + highlight[item.level] + "\">" +
             item.title +
             "</a>" +
         "</h3>" +

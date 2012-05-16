@@ -140,8 +140,23 @@
 }
 
 .item_title .highlight_s {
-    font-size: 25px;
+    font-size: 18px;
     color: black;
+    font-weight: normal;
+}
+.item_title .highlight_m1 {
+    font-size: 15px;
+    color: #a66aea;
+    font-weight: bold;
+}
+.item_title .highlight_m2 {
+    font-size: 22px;
+    color: #ecb50f;
+    font-weight: normal;
+}
+.item_title .highlight_l {
+    font-size: 25px;
+    color: red;
     font-weight: normal;
 }
 
