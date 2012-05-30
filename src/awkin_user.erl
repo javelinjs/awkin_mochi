@@ -122,7 +122,7 @@ fetch_cookie(Cookie) ->
     UserCookie ->
         UserList = awkin_user:cookie_decode(UserCookie),
         {{proplists:get_value(uid, UserList), proplists:get_value(nickname, UserList)},
-            {?DISP_LOGOUT, ?URL_LOGIN}}
+            {?DISP_LOGOUT, ?URL_LOGOUT}}
     end.
 
 do_login(Email, Pwd) ->
