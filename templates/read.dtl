@@ -91,6 +91,7 @@ function hideitem() {
 }
 
 function news(limit, baseid) {
+    baseid = baseid.replace("\n", "");
     var json = {
         "action": "news",
         "limit": limit,
